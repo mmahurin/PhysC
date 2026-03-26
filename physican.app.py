@@ -43,13 +43,18 @@ except Exception:
     pass
 
 # --- Model Loading ---
-try:
-    nlp = spacy.load('en_core_web_sm')
-except OSError:
-    print("Downloading spaCy model...")
-    import subprocess, sys
-    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], capture_output=True, text=True)
-    nlp = spacy.load('en_core_web_sm')
+@st.cache_resource
+def load_spacy_model():
+    """Load spaCy model with caching to avoid reloading on each app rerun."""
+    try:
+        return spacy.load('en_core_web_sm')
+    except OSError:
+        print("Downloading spaCy model...")
+        import subprocess, sys
+        subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], capture_output=True, text=True)
+        return spacy.load('en_core_web_sm')
+
+nlp = load_spacy_model()
 
 # ==========================================
 # 2. HELPER FUNCTIONS
