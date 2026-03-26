@@ -419,4 +419,4 @@ def run_simulation(n_clicks, provider_name, sms_number, email_address, cv_data, 
 # ==========================================
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8050)
+    app.run(debug=True, port=8050)

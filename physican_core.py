@@ -24,7 +24,19 @@ from pdf2image import convert_from_bytes
 # OpenAI API key should be set in environment variables
 # On Streamlit Cloud: Add OPENAI_API_KEY to Secrets tab
 # Locally: Set as environment variable or in .env file
-openai_client = OpenAI()
+openai_client = None
+
+def get_openai_client():
+    """Get or initialize OpenAI client (lazy initialization)."""
+    global openai_client
+    if openai_client is None:
+        try:
+            openai_client = OpenAI()
+        except Exception as e:
+            print(f"Warning: Could not initialize OpenAI client: {e}")
+            print("The app will run but LLM features will not be available.")
+            openai_client = None
+    return openai_client
 
 # --- Model Configuration ---
 # Using gpt-4o-mini for better speed and cost efficiency
@@ -42,10 +54,13 @@ except Exception:
     pass
 
 # --- Model Loading ---
-@st.cache_resource
 def load_spacy_model():
-    """Load spaCy model with caching to avoid reloading on each app rerun."""
-    return spacy.load('en_core_web_sm')
+    """Load spaCy model."""
+    try:
+        return spacy.load('en_core_web_sm')
+    except OSError:
+        print("Error: spaCy model 'en_core_web_sm' not found.")
+        return None
 
 nlp = load_spacy_model()
 
@@ -245,7 +260,10 @@ class CredentialSystem:
     def _call_llm(self, system_msg, user_msg, temperature=0.1):
         """Internal helper for LLM calls."""
         try:
-            res = openai_client.chat.completions.create(
+            client = get_openai_client()
+            if client is None:
+                return None
+            res = client.chat.completions.create(
                 model=OPENAI_MODEL,
                 response_format={"type": "json_object"},
                 messages=[{"role": "system", "content": system_msg}, {"role": "user", "content": user_msg}],
@@ -403,7 +421,11 @@ class CredentialSystem:
         # print(f"[Nudge Agent] Creating notification for: {reason}") # Suppressed
         sys_prompt = "Write a polite, concise (1-2 sentences) email to a doctor explaining a credentialing issue."
         try:
-            msg = openai_client.chat.completions.create(model=OPENAI_MODEL, messages=[{"role":"system","content":sys_prompt},{"role":"user","content":f"Issue: {reason}"}], temperature=0.7).choices[0].message.content
+            client = get_openai_client()
+            if client:
+                msg = client.chat.completions.create(model=OPENAI_MODEL, messages=[{"role":"system","content":sys_prompt},{"role":"user","content":f"Issue: {reason}"}], temperature=0.7).choices[0].message.content
+            else:
+                msg = f"Please address the issue: {reason}"
         except: msg = f"Please address the issue: {reason}"
 
         # Use specific output format if contacts are available
@@ -421,7 +443,11 @@ class CredentialSystem:
         """Generates and sends an approval notification."""
         sys_prompt = "Write a polite, concise (1-2 sentences) email to a doctor congratulating them on successful credentialing approval. Your name is Creed Special. Your role is a credentialing specialist"
         try:
-            msg = openai_client.chat.completions.create(model=OPENAI_MODEL, messages=[{"role":"system","content":sys_prompt},{"role":"user","content":f"Doctor: {self.provider}"}], temperature=0.7).choices[0].message.content
+            client = get_openai_client()
+            if client:
+                msg = client.chat.completions.create(model=OPENAI_MODEL, messages=[{"role":"system","content":sys_prompt},{"role":"user","content":f"Doctor: {self.provider}"}], temperature=0.7).choices[0].message.content
+            else:
+                msg = f"Congratulations {self.provider}, your credentialing is complete."
         except: msg = f"Congratulations {self.provider}, your credentialing is complete."
 
         # Use specific output format if contacts are available
