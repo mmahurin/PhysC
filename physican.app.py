@@ -22,10 +22,9 @@ import streamlit as st
 # ==========================================
 
 # --- API Keys ---
-# Load OPENAI key from environment (Streamlit Cloud allows setting secrets as env vars)
-os.environ["OPENAI_API_KEY"] = os.environ.get("OPENAI_API_KEY", "").strip()
-
-# --- Client Initialization ---
+# OpenAI API key should be set in environment variables
+# On Streamlit Cloud: Add OPENAI_API_KEY to Secrets tab
+# Locally: Set as environment variable or in .env file
 openai_client = OpenAI()
 
 # --- Model Configuration ---
