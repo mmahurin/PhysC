@@ -46,13 +46,11 @@ except Exception:
 # --- Model Loading ---
 try:
     nlp = spacy.load('en_core_web_sm')
-    # print("spaCy model loaded.") # Suppressed output
 except OSError:
     print("Downloading spaCy model...")
     import subprocess, sys
     subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], capture_output=True, text=True)
     nlp = spacy.load('en_core_web_sm')
-    # print("spaCy model downloaded and loaded.")
 
 # ==========================================
 # 2. HELPER FUNCTIONS
