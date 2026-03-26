@@ -261,9 +261,9 @@ app.layout = dbc.Container([
     ], className="mt-4"),
     
     # Loading spinner
-    dcc.Loading(id="loading", type="default", children=[])
+    dcc.Loading(id="loading", type="default", children=[]),
     
-], fluid=True, className="bg-light" style={"minHeight": "100vh", "paddingBottom": "50px"})
+], fluid=True, className="bg-light", style={"minHeight": "100vh", "paddingBottom": "50px"})
 
 # ==========================================
 # CALLBACKS
