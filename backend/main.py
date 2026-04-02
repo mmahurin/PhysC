@@ -71,47 +71,74 @@ def upsert_submission(record):
     save_submissions(records)
 
 
-def get_latest_scoring_event():
-    """Read the audit log and return the most recent Scoring entry."""
-    entries = []
+def get_scoring_event_after(after_ts: str) -> dict:
+    """Return the first Scoring audit event logged at or after after_ts."""
     try:
         with open(AUDIT_LOG_FILE, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if line:
-                    try:
-                        entries.append(json.loads(line))
-                    except Exception:
-                        pass
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                    if (entry.get("agent") == "Scoring"
+                            and "deductions" in entry
+                            and entry.get("timestamp", "") >= after_ts):
+                        return entry
+                except Exception:
+                    pass
     except FileNotFoundError:
         pass
-    for entry in reversed(entries):
-        if entry.get("agent") == "Scoring" and "deductions" in entry:
-            return entry
     return {}
 
 
-def build_deductions(raw_deductions, start_score, final_score):
-    """Convert raw deduction strings to [{reason, points}] dicts."""
+def build_deductions(raw_deductions: list) -> list:
+    """Convert raw deduction strings from the audit log to [{reason, points}] dicts."""
     result = []
-    running = start_score
     for reason in raw_deductions:
-        pts = 10  # default
         r_lower = reason.lower()
         if "invalid dea" in r_lower:
             pts = 15
         elif "invalid license" in r_lower:
             pts = 15
-        elif "missing" in r_lower:
-            pts = 10
         elif "blurry" in r_lower:
             pts = 5
-        elif "semantic" in r_lower:
-            pts = running - final_score - sum(d["points"] for d in result)
-            pts = max(0, pts)
-        running -= pts
+        else:
+            pts = 10  # Missing docs, semantic, and anything else
         result.append({"reason": reason, "points": pts})
     return result
+
+
+def verify_deductions(deductions: list, extracted_data: dict, uploaded_status: dict) -> tuple[list, int]:
+    """Remove deductions that are contradicted by the actual extracted data.
+    Returns (corrected_deductions, points_restored)."""
+    dea_data = (extracted_data.get('dea_certificate')
+                or extracted_data.get('DEA')
+                or extracted_data.get('dea')
+                or {})
+    dea_no = str(dea_data.get('dea_number') or dea_data.get('number') or 'N/A').strip()
+
+    lic_data = extracted_data.get('license') or extracted_data.get('License') or {}
+    lic_no = str(lic_data.get('license_no') or lic_data.get('number') or 'N/A').strip()
+
+    corrected = []
+    restored = 0
+    for d in deductions:
+        r = d['reason'].lower()
+        # "Missing DEA Number" — remove if DEA number is actually present
+        if 'missing dea number' in r and dea_no and dea_no.upper() != 'N/A':
+            restored += d['points']
+            continue
+        # "Missing DEA" (document) — remove if DEA file was uploaded
+        if r == 'missing dea' and uploaded_status.get('DEA', False):
+            restored += d['points']
+            continue
+        # "Missing License Number" — remove if license number is actually present
+        if 'missing license number' in r and lic_no and lic_no.upper() != 'N/A':
+            restored += d['points']
+            continue
+        corrected.append(d)
+    return corrected, restored
 
 
 def make_fake_file(content_bytes: bytes, filename: str):
@@ -206,6 +233,8 @@ async def submit_credentials(
         return record
 
     try:
+        pipeline_start_ts = datetime.now().isoformat()
+
         system = CredentialSystem(
             provider_name,
             sms_number,
@@ -251,10 +280,22 @@ async def submit_credentials(
         else:
             persist_status = "RETRY_REQUIRED"
 
-        # Capture deductions from audit log
-        scoring_event = get_latest_scoring_event()
+        # Capture deductions from this run's audit log entry
+        scoring_event = get_scoring_event_after(pipeline_start_ts)
         raw_deductions = scoring_event.get("deductions", [])
-        deductions = build_deductions(raw_deductions, 100, score)
+        deductions = build_deductions(raw_deductions)
+
+        # Remove any deductions contradicted by the actual extracted data
+        deductions, restored = verify_deductions(deductions, system.extracted_data, uploaded_status)
+        score = min(100, score + restored)
+
+        # Re-derive status from corrected score
+        if score >= 95:
+            persist_status = "AUTO_APPROVED"
+        elif score >= 80:
+            persist_status = "PENDING_SPECIALIST_REVIEW"
+        else:
+            persist_status = "RETRY_REQUIRED"
 
         notif_channel = "SMS" if sms_number else ("Email" if email_address else "None")
         notif_contact = sms_number or email_address or ""
