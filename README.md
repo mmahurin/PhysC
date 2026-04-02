@@ -1,4 +1,7 @@
 # PhysC
+
+**An API key is needed, the template for an OPENAI api is locate in .env.example just add your key.**
+
 This AI system automates physician credentialing. It uses OCR and LLMs to extract data from documents like licenses and diplomas. It verifies information, checks for sanctions, scores confidence, and handles approvals or requests for corrections. The goal is to streamline credentialing and maintain a hospital database.
 
 Automate and streamline the process of verifying physician qualifications. It leverages a suite of technologies including pytesseract for Optical Character Recognition (OCR) to extract text from various document types (PDFs, images), PyPDF2 and pdf2image for document handling, and spaCy for natural language processing.

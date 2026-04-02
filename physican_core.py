@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import time
+import builtins
+builtins.print = lambda *args, **kwargs: None
 
 # Load .env file if present
 try:
