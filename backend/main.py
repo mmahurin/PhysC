@@ -178,11 +178,11 @@ async def submit_credentials(
     dea_bin, _dea_type, dea_txt = extract(dea_bytes, dea.filename if dea else None)
 
     uploaded_status = {
-        "CV": cv_bin is not None,
+        "CV": cv is not None,
         "License": True,
-        "Identity": id_bin is not None,
-        "Diploma": dip_bin is not None,
-        "DEA": dea_bin is not None,
+        "Identity": identity is not None,
+        "Diploma": diploma is not None,
+        "DEA": dea is not None,
     }
 
     def save_failed(status: str, reason: str):
@@ -324,6 +324,18 @@ def approve_submission(submission_id: str):
             })
             return record
     raise HTTPException(status_code=404, detail="Submission not found")
+
+
+@app.delete("/api/submissions/{submission_id}")
+def delete_submission(submission_id: str):
+    """Permanently delete a submission record."""
+    submissions = load_submissions()
+    updated = [r for r in submissions if r.get("id") != submission_id]
+    if len(updated) == len(submissions):
+        raise HTTPException(status_code=404, detail="Submission not found")
+    save_submissions(updated)
+    log_audit_event({"action": "Specialist Deletion", "submission_id": submission_id})
+    return {"deleted": submission_id}
 
 
 @app.post("/api/submissions/{submission_id}/reject")

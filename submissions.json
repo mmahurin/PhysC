@@ -1,189 +1,11 @@
 [
   {
-    "id": "afd90e53-ec55-4a67-bd00-1689336057f3",
+    "id": "5c8b4f8d-8145-477b-8ead-0a61c62af081",
     "provider_name": "Matthew Mahurin",
-    "timestamp": "2026-04-02T11:35:55.466504",
-    "sms_number": null,
-    "email_address": null,
-    "confidence_score": 48,
-    "deductions": [
-      {
-        "reason": "Missing Identity",
-        "points": 10
-      },
-      {
-        "reason": "Missing Diploma",
-        "points": 10
-      },
-      {
-        "reason": "Missing DEA",
-        "points": 10
-      },
-      {
-        "reason": "Semantic: The data shows some inconsistencies that affect the coherence score. The full name 'Matthew Mahurin' matches the provider name, which is good. However, the identity document indicates a photo ID mismatch, which raises concerns about identity verification. The medical diploma from the University of Maryland School of Medicine with a graduation date of 2016 aligns with the educational background, but the Family Medicine Residency at Johns Hopkins Bayview Medical Center graduated in 2019, which is consistent. The employment history is logical, with the job titles and dates appearing reasonable. However, the absence of a date of birth and social security number in the identity document is a significant gap. Overall, while there are some logical connections, the inconsistencies in identity verification and missing critical personal information lower the coherence score.",
-        "points": 10
-      },
-      {
-        "reason": "Missing DEA Number",
-        "points": 10
-      }
-    ],
-    "extracted_data": {
-      "license": {
-        "license_no": "D84254",
-        "expiration_date": "2027-09-30",
-        "status": "ACTIVE"
-      },
-      "identity_document": {
-        "full_name": "Matthew Mahurin",
-        "dob": "N/A",
-        "ssn": "N/A",
-        "photo_id_match": false
-      },
-      "medical_diploma": {
-        "degree_type": "Doctor of Medicine (MD)",
-        "institution": "University of Maryland School of Medicine",
-        "graduation_date": "2016-05-01"
-      },
-      "dea_certificate": {
-        "dea_number": "N/A",
-        "schedules": [],
-        "expiration_date": "N/A"
-      },
-      "cv": {
-        "employment_history": [
-          {
-            "job_title": "Lead Physician",
-            "employer": "Chesapeake Family Health",
-            "start_date": "2021-07-01",
-            "end_date": "Present"
-          },
-          {
-            "job_title": "Staff Physician",
-            "employer": "Maryland Urban Health Center",
-            "start_date": "2019-06-01",
-            "end_date": "2021-06-01"
-          }
-        ],
-        "education": [
-          {
-            "degree_type": "Family Medicine Residency",
-            "institution": "Johns Hopkins Bayview Medical Center",
-            "graduation_date": "2019-06-01"
-          },
-          {
-            "degree_type": "Bachelor of Science in Biology",
-            "institution": "University of Maryland, College Park",
-            "graduation_date": "2012-05-01"
-          }
-        ]
-      },
-      "provider_name": "Matthew Mahurin"
-    },
-    "visual_fidelity_metrics": {
-      "cv_text_length": 3439,
-      "license_text_length": 426
-    },
-    "status": "RETRY_REQUIRED",
-    "notification_channel": "None",
-    "notification_message": "",
-    "specialist_action": null,
-    "specialist_timestamp": null
-  },
-  {
-    "id": "0384b057-fcdf-4bc9-8f40-476f1a72199a",
-    "provider_name": "MAtthew Mahurin",
-    "timestamp": "2026-04-02T11:37:51.700812",
-    "sms_number": null,
-    "email_address": null,
-    "confidence_score": 58,
-    "deductions": [
-      {
-        "reason": "Missing Identity",
-        "points": 10
-      },
-      {
-        "reason": "Missing DEA",
-        "points": 10
-      },
-      {
-        "reason": "Semantic: The data shows some inconsistencies. The full name 'Matthew Mahurin' matches the provider name 'MAtthew Mahurin', but the capitalization is inconsistent. The date of birth (dob) is marked as 'N/A', which is unusual for credentialing data. The medical diploma graduation date (2016-05-01) is earlier than the Family Medicine Residency graduation date (2019-06-01), which is logical. However, the employment history shows a job title 'Lead Physician' starting in 2021, which is reasonable given the residency completion. The lack of a DEA number and the 'N/A' status for the identity document's SSN raises questions about the completeness of the data. Overall, while there are some logical connections, the inconsistencies and missing information affect the overall coherence score.",
-        "points": 10
-      },
-      {
-        "reason": "Missing DEA Number",
-        "points": 10
-      }
-    ],
-    "extracted_data": {
-      "license": {
-        "license_no": "D84254",
-        "expiration_date": "2027-09-30",
-        "status": "ACTIVE"
-      },
-      "identity_document": {
-        "full_name": "Matthew Mahurin",
-        "dob": "N/A",
-        "ssn": "N/A",
-        "photo_id_match": false
-      },
-      "medical_diploma": {
-        "degree_type": "Doctor of Medicine (MD)",
-        "institution": "University of Maryland School of Medicine",
-        "graduation_date": "2016-05-01"
-      },
-      "dea_certificate": {
-        "dea_number": "N/A",
-        "schedules": [],
-        "expiration_date": "N/A"
-      },
-      "cv": {
-        "employment_history": [
-          {
-            "job_title": "Lead Physician",
-            "employer": "Chesapeake Family Health",
-            "start_date": "2021-07-01",
-            "end_date": "Present"
-          },
-          {
-            "job_title": "Staff Physician",
-            "employer": "Maryland Urban Health Center",
-            "start_date": "2019-06-01",
-            "end_date": "2021-06-01"
-          }
-        ],
-        "education": [
-          {
-            "degree_type": "Family Medicine Residency",
-            "institution": "Johns Hopkins Bayview Medical Center",
-            "graduation_date": "2019-06-01"
-          },
-          {
-            "degree_type": "Bachelor of Science in Biology",
-            "institution": "University of Maryland, College Park",
-            "graduation_date": "2012-05-01"
-          }
-        ]
-      },
-      "provider_name": "MAtthew Mahurin"
-    },
-    "visual_fidelity_metrics": {
-      "cv_text_length": 3439,
-      "license_text_length": 426
-    },
-    "status": "RETRY_REQUIRED",
-    "notification_channel": "None",
-    "notification_message": "",
-    "specialist_action": null,
-    "specialist_timestamp": null
-  },
-  {
-    "id": "388bf425-ceba-4b7d-b5ce-c36500e26339",
-    "provider_name": "Matthew Mahurin",
-    "timestamp": "2026-04-02T12:17:09.750085",
+    "timestamp": "2026-04-02T12:36:39.638482",
     "sms_number": "8472540850",
-    "email_address": null,
-    "confidence_score": 53,
+    "email_address": "matthewmmahurin@gmail.com",
+    "confidence_score": 83,
     "deductions": [
       {
         "reason": "Missing Identity",
@@ -212,7 +34,7 @@
         "full_name": "Matthew Mahurin",
         "dob": "N/A",
         "ssn": "N/A",
-        "photo_id_match": false
+        "photo_id_match": true
       },
       "medical_diploma": {
         "degree_type": "Doctor of Medicine (MD)",
@@ -220,9 +42,16 @@
         "graduation_date": "2016-05-01"
       },
       "dea_certificate": {
-        "dea_number": "N/A",
-        "schedules": [],
-        "expiration_date": "N/A"
+        "dea_number": "BM1928374",
+        "schedules": [
+          "2",
+          "2N",
+          "3",
+          "3N",
+          "4",
+          "5"
+        ],
+        "expiration_date": "2027-05-31"
       },
       "cv": {
         "employment_history": [
@@ -263,7 +92,7 @@
       "cv_text_length": 3439,
       "license_text_length": 426
     },
-    "status": "RETRY_REQUIRED",
+    "status": "PENDING_SPECIALIST_REVIEW",
     "notification_channel": "SMS",
     "notification_message": "8472540850",
     "specialist_action": null,

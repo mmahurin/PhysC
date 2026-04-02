@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
-import { RefreshCw, Loader2 } from 'lucide-react'
+import { RefreshCw, Loader2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { getSubmissions, approveSubmission, rejectSubmission } from '@/api/client'
+import { getSubmissions, approveSubmission, rejectSubmission, deleteSubmission } from '@/api/client'
 import type { Submission, SubmissionStatus } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -52,6 +52,7 @@ export function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Submission | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -87,6 +88,22 @@ export function DashboardPage() {
       await load()
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Approval failed.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!selected) return
+    setActionLoading(true)
+    try {
+      await deleteSubmission(selected.id)
+      toast.success(`Record for ${selected.provider_name} deleted.`)
+      setSelected(null)
+      setConfirmDelete(false)
+      await load()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Deletion failed.')
     } finally {
       setActionLoading(false)
     }
@@ -172,6 +189,7 @@ export function DashboardPage() {
                   <TableHead>Date Submitted</TableHead>
                   <TableHead>Score</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead className="w-10" />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -182,7 +200,7 @@ export function DashboardPage() {
                       'cursor-pointer',
                       selected?.id === s.id ? 'bg-primary/5 hover:bg-primary/5' : ''
                     )}
-                    onClick={() => setSelected(selected?.id === s.id ? null : s)}
+                    onClick={() => { setSelected(selected?.id === s.id ? null : s); setConfirmDelete(false) }}
                   >
                     <TableCell className="font-medium">{s.provider_name}</TableCell>
                     <TableCell className="text-muted-foreground text-sm">
@@ -203,6 +221,15 @@ export function DashboardPage() {
                       </span>
                     </TableCell>
                     <TableCell>{statusBadge(s.status)}</TableCell>
+                    <TableCell>
+                      <button
+                        className="p-1 rounded text-muted-foreground hover:text-red-600 hover:bg-red-50 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); setSelected(s); setConfirmDelete(true) }}
+                        title="Delete record"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -268,6 +295,31 @@ export function DashboardPage() {
                     )}
                   </Button>
                 </div>
+              </div>
+            )}
+
+            {/* Delete */}
+            {confirmDelete ? (
+              <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-red-900">Delete this record?</p>
+                  <p className="text-xs text-red-700 mt-0.5">This cannot be undone.</p>
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <Button variant="outline" size="sm" onClick={() => setConfirmDelete(false)} disabled={actionLoading}>
+                    Cancel
+                  </Button>
+                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white" onClick={handleDelete} disabled={actionLoading}>
+                    {actionLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : 'Delete'}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-end">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-red-600 hover:bg-red-50" onClick={() => setConfirmDelete(true)}>
+                  <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                  Delete Record
+                </Button>
               </div>
             )}
 

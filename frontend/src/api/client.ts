@@ -41,3 +41,10 @@ export async function rejectSubmission(id: string): Promise<Submission> {
   })
   return handleResponse<Submission>(res)
 }
+
+export async function deleteSubmission(id: string): Promise<void> {
+  const res = await fetch(`/api/submissions/${id}`, {
+    method: 'DELETE',
+  })
+  await handleResponse<{ deleted: string }>(res)
+}

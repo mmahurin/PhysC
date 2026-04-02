@@ -392,10 +392,14 @@ class CredentialSystem:
 
         # 3. Completeness/Auth (Robust)
         lic_data = self.extracted_data.get('license') or self.extracted_data.get('License') or {}
-        dea_data = self.extracted_data.get('dea_certificate') or self.extracted_data.get('DEA') or {}
+        dea_data = (self.extracted_data.get('dea_certificate')
+                    or self.extracted_data.get('DEA')
+                    or self.extracted_data.get('dea')
+                    or self.extracted_data.get('DEA_certificate')
+                    or {})
 
         lic_no = get_value_robust(lic_data, ['license_no', 'number'])
-        dea_no = get_value_robust(dea_data, ['dea_number', 'number'])
+        dea_no = get_value_robust(dea_data, ['dea_number', 'number', 'dea_no', 'dea_num', 'registration_number'])
 
         if lic_no == "N/A":
             self.confidence_score -= 10
