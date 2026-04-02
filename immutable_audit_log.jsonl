@@ -1,0 +1,29 @@
+{"action": "Initialization", "provider": "Matthew Mahurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 10:49:21.032026"}
+{"agent": "Preprocessing", "provider": "Matthew Mahurin", "status": "Started", "timestamp": "2026-04-02 10:49:21.034265"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 10:49:21.092967"}
+{"agent": "Extraction", "status": "Failed", "timestamp": "2026-04-02 10:49:21.093957"}
+{"timestamp": "2026-04-02 10:49:21.095235", "action": "Nudge", "msg": "Please address the issue: Extraction Failed", "reason": "Extraction Failed"}
+{"action": "Initialization", "provider": "Matthew Mahurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 10:49:28.905755"}
+{"agent": "Preprocessing", "provider": "Matthew Mahurin", "status": "Started", "timestamp": "2026-04-02 10:49:28.905755"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 10:49:28.917577"}
+{"agent": "Extraction", "status": "Failed", "timestamp": "2026-04-02 10:49:28.919497"}
+{"timestamp": "2026-04-02 10:49:28.920754", "action": "Nudge", "msg": "Please address the issue: Extraction Failed", "reason": "Extraction Failed"}
+{"action": "Initialization", "provider": "Matthew Mahurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 10:49:36.300704"}
+{"agent": "Preprocessing", "provider": "Matthew Mahurin", "status": "Started", "timestamp": "2026-04-02 10:49:36.301690"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 10:49:36.306686"}
+{"agent": "Extraction", "status": "Failed", "timestamp": "2026-04-02 10:49:36.314850"}
+{"timestamp": "2026-04-02 10:49:36.314850", "action": "Nudge", "msg": "Please address the issue: Extraction Failed", "reason": "Extraction Failed"}
+{"action": "Initialization", "provider": "Matthew Mahurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 10:58:48.353446"}
+{"agent": "Preprocessing", "provider": "Matthew Mahurin", "status": "Started", "timestamp": "2026-04-02 10:58:48.353446"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 10:58:48.404399"}
+{"agent": "Extraction", "status": "Failed", "timestamp": "2026-04-02 10:58:48.404399"}
+{"timestamp": "2026-04-02 10:58:48.404399", "action": "Nudge", "msg": "Please address the issue: Extraction Failed", "reason": "Extraction Failed"}
+{"action": "Initialization", "provider": "Matthew MAhurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 11:04:21.835327"}
+{"agent": "Preprocessing", "provider": "Matthew MAhurin", "status": "Started", "timestamp": "2026-04-02 11:04:21.837327"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 11:04:21.868932"}
+{"action": "Initialization", "provider": "Matthew MAhurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 11:04:27.452344"}
+{"agent": "Preprocessing", "provider": "Matthew MAhurin", "status": "Started", "timestamp": "2026-04-02 11:04:27.455541"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 11:04:27.495207"}
+{"action": "Initialization", "provider": "Matthew Mahurin", "documents_uploaded": ["CV", "License", "Identity", "Diploma", "DEA"], "timestamp": "2026-04-02 11:05:33.967125"}
+{"agent": "Preprocessing", "provider": "Matthew Mahurin", "status": "Started", "timestamp": "2026-04-02 11:05:33.969932"}
+{"agent": "Preprocessing", "status": "Passed", "timestamp": "2026-04-02 11:05:34.005525"}

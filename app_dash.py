@@ -39,17 +39,17 @@ def parse_upload_content(contents, filename):
     
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
-    
+
     file_type = 'pdf' if filename.lower().endswith('.pdf') else 'image'
     text = extract_text_from_document(
         type('obj', (object,), {
-            'getvalue': lambda: decoded,
+            'getvalue': lambda self: decoded,
             'name': filename
         })(),
         file_type
     )
-    
-    return decoded, file_type, text
+
+    return content_string, file_type, text
 
 # ==========================================
 # LAYOUT
@@ -366,9 +366,12 @@ def run_simulation(n_clicks, provider_name, sms_number, email_address, cv_data, 
             uploaded_documents=uploaded_status
         )
         
+        def to_bytes(b64):
+            return base64.b64decode(b64) if b64 else None
+
         status = system.preprocessing_agent(
-            files['CV']['binary'], files['CV']['type'],
-            files['License']['binary'], files['License']['type'],
+            to_bytes(files['CV']['binary']), files['CV']['type'],
+            to_bytes(files['License']['binary']), files['License']['type'],
             files['CV']['text'], files['License']['text']
         )
         

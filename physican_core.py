@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import time
+
+# Load .env file if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import re
 import io
 import json
